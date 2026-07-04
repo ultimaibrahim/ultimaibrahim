@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Ultima Ibrahim · Portfolio</title>
+<link rel="icon" type="image/svg+xml" href="favicon.svg" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link
+  rel="stylesheet"
+  href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500&display=swap"
+/>
+
+<style>
+  *, *::before, *::after { box-sizing: border-box; }
+  html, body, #root {
+    margin: 0; padding: 0;
+    width: 100%; height: 100%;
+    background: #2F2B3F;
+    color: #F2F0F8;
+    font-family: "Geist", "SF Pro Text", "Inter", system-ui, sans-serif;
+    overflow: hidden;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    font-feature-settings: "ss01", "ss02", "cv11";
+  }
+
+  /* Premium unification — no italic, single family for display + body.
+     Inline fontStyle: 'italic' from the React code is neutralized here so
+     the prior serif/italic accents now read as the same Geist family. */
+  body, body * { font-style: normal !important; }
+
+  /* loading state */
+  #__boot {
+    position: fixed; inset: 0; z-index: 100;
+    display: grid; place-items: center;
+    background: radial-gradient(circle, #1F0D3D 0%, #090314 100%);
+    color: #C084FC;
+    font-family: "Geist Mono", ui-monospace, monospace;
+    font-size: 11px; letter-spacing: .3em; text-transform: uppercase;
+    transition: opacity .5s ease;
+  }
+  #__boot.gone { opacity: 0; pointer-events: none; }
+  
+  .geass-loader {
+    width: 60px; height: 60px;
+    margin-bottom: 20px;
+    fill: #C084FC;
+    filter: drop-shadow(0 0 12px rgba(168, 85, 247, 0.8));
+    animation: pulseGeass 1.5s ease-in-out infinite;
+  }
+  @keyframes pulseGeass {
+    0%, 100% { transform: scale(1); opacity: 0.7; }
+    50% { transform: scale(1.12); opacity: 1; }
+  }
+</style>
+</head>
+<body>
+
+<div id="__boot">
+  <div style="text-align: center;">
+    <svg class="geass-loader" viewBox="0 0 100 100">
+      <path d="M50,75 C52,65 58,55 70,55 C65,48 55,42 50,20 C45,42 35,48 30,55 C42,55 48,65 50,75 Z M50,20 C53,42 63,46 80,42 C70,52 62,60 50,75 C38,60 30,52 20,42 C37,46 47,42 50,20 Z" />
+    </svg>
+    <div>cargando...</div>
+  </div>
+</div>
+<div id="root"></div>
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+
+<script src="portfolio/data.js"></script>
+<script type="text/babel" src="portfolio/hooks.jsx"></script>
+<script type="text/babel" src="portfolio/icons.jsx"></script>
+<script type="text/babel" src="portfolio/ui.jsx"></script>
+<script type="text/babel" src="portfolio/pages.jsx"></script>
+<script type="text/babel" src="portfolio/main.jsx"></script>
+
+<script type="text/babel" data-presets="env,react">
+(() => {
+  const { useEffect } = React;
+  function Root() {
+    useEffect(() => {
+      const b = document.getElementById('__boot');
+      if (b) {
+        b.classList.add('gone');
+        setTimeout(() => b.remove(), 600);
+      }
+    }, []);
+    return <PortfolioApp />;
+  }
+  ReactDOM.createRoot(document.getElementById('root')).render(<Root />);
+})();
+</script>
+
+</body>
+</html>
