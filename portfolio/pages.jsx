@@ -222,6 +222,7 @@ function Overview({ lang, onJump }) {
 // ───────────────────────── PROJECTS PAGE (lista) ─────────────────────────
 function ProjectsTOC({ projects, lang, onJump }) {
   const [open, setOpen] = useStateP(true);
+  const isMobile = window.PH.useIsMobile();
   return (
     <Glass padding={0} style={{ overflow: 'hidden' }}>
       <button
@@ -243,7 +244,7 @@ function ProjectsTOC({ projects, lang, onJump }) {
         <span style={{ marginLeft: 'auto', color: M.text3, fontSize: 10 }}>{open ? (lang === 'es' ? 'ocultar' : 'hide') : (lang === 'es' ? 'mostrar' : 'show')}</span>
       </button>
       <div style={{
-        maxHeight: open ? 400 : 0, overflow: 'hidden',
+        maxHeight: open ? 800 : 0, overflow: 'hidden',
         transition: 'max-height .35s cubic-bezier(.2,.7,.3,1)',
       }}>
         <ol style={{ listStyle: 'none', margin: 0, padding: '4px 0 14px' }}>
@@ -255,8 +256,11 @@ function ProjectsTOC({ projects, lang, onJump }) {
                   href={`#/proyectos/${p.id}`}
                   onClick={(e) => { e.preventDefault(); onJump(`#/proyectos/${p.id}`); }}
                   style={{
-                    display: 'grid', gridTemplateColumns: '90px 1fr auto auto', gap: 14,
-                    padding: '10px 22px 10px 56px', alignItems: 'baseline',
+                    display: 'grid',
+                    gridTemplateColumns: isMobile ? '24px 1fr auto' : '90px 1fr auto auto',
+                    gap: 14,
+                    padding: isMobile ? '12px 16px' : '10px 22px 10px 56px',
+                    alignItems: 'center',
                     textDecoration: 'none', color: M.text1,
                     borderTop: `1px solid ${M.glassBorder}`,
                     transition: 'background .15s',
@@ -265,9 +269,9 @@ function ProjectsTOC({ projects, lang, onJump }) {
                   onMouseLeave={e => e.currentTarget.style.background = 'transparent'}
                 >
                   <span style={{ fontFamily: M.mono, fontSize: 10.5, color: M.text3, letterSpacing: '.06em' }}>{p.idx}</span>
-                  <span>
-                    <span style={{ fontFamily: M.sans, fontSize: 16, fontWeight: 500, color: M.text1, lineHeight: 1.2, marginRight: 10, letterSpacing: '-.01em' }}>{name}</span>
-                    <span style={{ fontSize: 12.5, color: M.text2 }}>— {Dp.t(p.tagline, lang)}</span>
+                  <span style={{ display: 'flex', flexDirection: isMobile ? 'column' : 'row', alignItems: isMobile ? 'flex-start' : 'baseline', gap: isMobile ? 2 : 10 }}>
+                    <span style={{ fontFamily: M.sans, fontSize: 16, fontWeight: 500, color: M.text1, lineHeight: 1.2, letterSpacing: '-.01em' }}>{name}</span>
+                    <span style={{ fontSize: 12.5, color: M.text2 }}>{isMobile ? '' : '— '}{Dp.t(p.tagline, lang)}</span>
                   </span>
                   <span style={{
                     fontFamily: M.mono, fontSize: 9.5, letterSpacing: '.1em', textTransform: 'uppercase',
@@ -275,7 +279,7 @@ function ProjectsTOC({ projects, lang, onJump }) {
                     padding: '2px 8px', borderRadius: 100,
                     border: `1px solid ${(p.accent === 'gold' ? M.mint : M.cool) + '55'}`,
                   }}>{Dp.t(p.status, lang)}</span>
-                  <span style={{ fontFamily: M.mono, fontSize: 11, color: M.text3 }}>→</span>
+                  {!isMobile && <span style={{ fontFamily: M.mono, fontSize: 11, color: M.text3 }}>→</span>}
                 </a>
               </li>
             );
@@ -935,8 +939,8 @@ function Contact({ lang, onJump }) {
                     target={isLink ? "_blank" : undefined}
                     rel={isLink ? "noopener noreferrer" : undefined}
                     style={{
-                      display: 'flex', alignItems: 'center', gap: 12,
-                      padding: '14px 16px', textDecoration: 'none',
+                      display: 'flex', alignItems: 'center', gap: 14,
+                      padding: '16px 20px', textDecoration: 'none',
                       background: 'rgba(255,255,255,.03)', color: M.text1,
                       borderBottom: i < list.length - 1 ? `1px solid ${M.glassBorder}` : 'none',
                       transition: 'background .15s',
@@ -945,15 +949,14 @@ function Contact({ lang, onJump }) {
                     onMouseEnter={e => { if (isLink) e.currentTarget.style.background = 'rgba(255,255,255,.07)'; }}
                     onMouseLeave={e => { if (isLink) e.currentTarget.style.background = 'rgba(255,255,255,.03)'; }}
                   >
-                    <span style={{ color: M.text3, display: 'inline-flex' }}>
-                      {c.icon === 'mail' ? <PI.mail size={14} /> :
-                       c.icon === 'github' ? <PI.github size={14} /> :
-                       c.icon === 'linkedin' ? <PI.linkedin size={14} /> :
-                       c.icon === 'globe' ? <PI.globe size={14} /> :
-                       <PI.pin size={14} />}
+                    <span style={{ color: M.text3, display: 'inline-flex', flexShrink: 0 }}>
+                      {c.icon === 'mail' ? <PI.mail size={16} /> :
+                       c.icon === 'github' ? <PI.github size={16} /> :
+                       c.icon === 'linkedin' ? <PI.linkedin size={16} /> :
+                       c.icon === 'globe' ? <PI.globe size={16} /> :
+                       <PI.pin size={16} />}
                     </span>
-                    <span style={{ fontFamily: M.mono, fontSize: 10, color: M.text3, letterSpacing: '.1em', textTransform: 'uppercase', width: 64 }}>{c.label}</span>
-                    <span style={{ flex: 1, fontSize: 13.5 }}>{c.value}</span>
+                    <span style={{ flex: 1, fontSize: 14, color: M.text1, wordBreak: 'break-all' }}>{c.value}</span>
                     {c.placeholder && <span style={{ fontFamily: M.mono, fontSize: 8.5, color: M.warm, padding: '3px 7px', borderRadius: 6, background: 'rgba(232,181,200,.12)', letterSpacing: '.08em', textTransform: 'uppercase' }}>placeholder</span>}
                   </a>
                 );

@@ -12,7 +12,7 @@
     age: 19,
     city: 'Guadalajara · MX',
     domain: 'ultimaibrahim.dev',
-    email: 'hola@ultimaibrahim.dev',
+    email: 'helloultima@ultimaibrahim.dev',
     github: 'github.com/ultimaibrahim',
     githubHandle: '@ultimaibrahim',
     linkedin: 'linkedin.com/in/ultimaibrahim',
@@ -368,13 +368,13 @@
 
   const CONTACT = {
     es: [
-      { label: 'Email',    value: 'hola@ultimaibrahim.dev',             icon: 'mail',     placeholder: false },
+      { label: 'Email',    value: 'helloultima@ultimaibrahim.dev',      icon: 'mail',     placeholder: false },
       { label: 'GitHub',   value: 'github.com/ultimaibrahim',           icon: 'github',   placeholder: false },
       { label: 'LinkedIn', value: 'linkedin.com/in/ultimaibrahim',      icon: 'linkedin', placeholder: false },
       { label: 'Lugar',    value: 'Guadalajara, MX',                    icon: 'pin',      placeholder: false },
     ],
     en: [
-      { label: 'Email',    value: 'hola@ultimaibrahim.dev',             icon: 'mail',     placeholder: false },
+      { label: 'Email',    value: 'helloultima@ultimaibrahim.dev',      icon: 'mail',     placeholder: false },
       { label: 'GitHub',   value: 'github.com/ultimaibrahim',           icon: 'github',   placeholder: false },
       { label: 'LinkedIn', value: 'linkedin.com/in/ultimaibrahim',      icon: 'linkedin', placeholder: false },
       { label: 'Location', value: 'Guadalajara, MX',                    icon: 'pin',      placeholder: false },
