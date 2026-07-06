@@ -119,4 +119,17 @@ function buildSparkline(data, w, h, pad = 4) {
   return { d, length, pts };
 }
 
-window.PH = { useReveal, useCountUp, useMouseParallax, useScrollSpy, buildSparkline };
+// ── useIsMobile: returns true if viewport is <= 768px wide.
+function useIsMobile() {
+  const [isMobile, setIsMobile] = _useState(() => typeof window !== 'undefined' && window.innerWidth <= 768);
+  _useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+  return isMobile;
+}
+
+window.PH = { useReveal, useCountUp, useMouseParallax, useScrollSpy, buildSparkline, useIsMobile };

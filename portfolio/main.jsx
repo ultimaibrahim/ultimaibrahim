@@ -41,6 +41,7 @@ function useHashRoute() {
 
 // ── Sidebar (4-route) ──
 function Sidebar({ collapsed, setCollapsed, lang, setLang, route, onJump }) {
+  const isMobile = window.PH.useIsMobile();
   const items = [
     ['#/',          PI.grid,    Dr.UI.routes.overview[lang], 'overview', null],
     ['#/proyectos', PI.chart,   Dr.UI.routes.projects[lang], 'projects', String(Dr.visibleProjects().length)],
@@ -49,6 +50,77 @@ function Sidebar({ collapsed, setCollapsed, lang, setLang, route, onJump }) {
   ];
   const isProject = route.page === 'project';
   const projects = Dr.visibleProjects();
+
+  if (isMobile) {
+    return (
+      <>
+        {/* Mobile Top Bar */}
+        <header style={{
+          position: 'fixed', top: 0, left: 0, right: 0, height: 60,
+          background: 'rgba(30,27,44,.75)', backdropFilter: 'blur(20px)',
+          WebkitBackdropFilter: 'blur(20px)',
+          borderBottom: '1px solid rgba(255,255,255,.06)',
+          display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+          padding: '0 20px', zIndex: 10,
+        }}>
+          <a href="#/" onClick={(e) => { e.preventDefault(); onJump('#/'); }} style={{
+            display: 'flex', alignItems: 'center', gap: 10, textDecoration: 'none', color: 'inherit'
+          }}>
+            <PI.logo size={32} style={{ color: '#C084FC', filter: 'drop-shadow(0 0 6px #A855F7)' }} />
+            <div>
+              <div style={{ fontSize: 13, fontWeight: 600, color: M.text1 }}>{Dr.PROFILE.brand}</div>
+              <div style={{ fontFamily: M.mono, fontSize: 9, color: M.text3 }}>{Dr.PROFILE.handle}</div>
+            </div>
+          </a>
+          
+          {/* Lang toggle */}
+          <div style={{ display: 'flex', background: 'rgba(255,255,255,.05)', padding: 2, borderRadius: 8 }}>
+            {['es', 'en'].map(l => (
+              <button key={l} onClick={() => setLang(l)} className="interactive-btn" style={{
+                background: lang === l ? 'rgba(255,255,255,.1)' : 'transparent',
+                border: 'none', color: lang === l ? M.text1 : M.text3,
+                fontFamily: M.mono, fontSize: 9.5, fontWeight: 600, padding: '4px 8px', borderRadius: 6, cursor: 'pointer',
+                transition: 'background .18s, color .18s',
+              }}>{l.toUpperCase()}</button>
+            ))}
+          </div>
+        </header>
+
+        {/* Mobile Bottom Nav Dock */}
+        <nav style={{
+          position: 'fixed', bottom: 16, left: 16, right: 16, height: 58,
+          background: 'rgba(45,42,60,.65)', backdropFilter: 'blur(24px) saturate(1.2)',
+          WebkitBackdropFilter: 'blur(24px) saturate(1.2)',
+          border: '1px solid rgba(255,255,255,.08)', borderRadius: 20,
+          display: 'flex', justifyContent: 'space-around', alignItems: 'center',
+          padding: '0 10px', zIndex: 10,
+          boxShadow: '0 12px 36px rgba(10,8,20,0.5)',
+        }}>
+          {items.map(([href, Icon, label, page]) => {
+            const isActive = route.page === page || (page === 'projects' && isProject);
+            return (
+              <a
+                key={page}
+                href={href}
+                onClick={(e) => { e.preventDefault(); onJump(href); }}
+                style={{
+                  display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 3,
+                  color: isActive ? '#C084FC' : M.text3,
+                  textDecoration: 'none',
+                  transition: 'color .2s, transform .14s',
+                  padding: '6px 12px',
+                }}
+                className="nav-link"
+              >
+                <Icon size={18} style={{ opacity: isActive ? 1 : 0.7 }} />
+                <span style={{ fontSize: 9, fontWeight: isActive ? 600 : 400, fontFamily: M.sans }}>{label}</span>
+              </a>
+            );
+          })}
+        </nav>
+      </>
+    );
+  }
 
   return (
     <aside style={{
@@ -235,6 +307,8 @@ function Sidebar({ collapsed, setCollapsed, lang, setLang, route, onJump }) {
 
 // ── Top bar (no scroll progress) ──
 function TopBar({ route, lang, onJump }) {
+  const isMobile = window.PH.useIsMobile();
+  if (isMobile) return null;
   const crumbs = [];
   crumbs.push({ label: Dr.PROFILE.handle, href: '#/' });
   if (route.page === 'overview') crumbs.push({ label: Dr.UI.routes.overview[lang].toLowerCase() });
@@ -302,6 +376,7 @@ function TopBar({ route, lang, onJump }) {
 
 // ── Page switcher with fade transition ──
 function PageSwitcher({ route, lang, onJump }) {
+  const isMobile = window.PH.useIsMobile();
   const [shownKey, setShownKey] = useStateA(route.key);
   const [fading, setFading] = useStateA(false);
   const mainRef = useRefA(null);
@@ -345,7 +420,7 @@ function PageSwitcher({ route, lang, onJump }) {
       <div
         key={shownKey}
         style={{
-          padding: '0 36px 50px',
+          padding: isMobile ? '0 16px 90px' : '0 36px 50px',
           maxWidth: 1080, margin: '0 auto',
           opacity: fading ? 0 : 1,
           transform: fading ? 'scale(0.98) translateY(4px)' : 'scale(1) translateY(0)',
@@ -377,6 +452,7 @@ function NotFound({ lang, onJump }) {
 
 // ── Root ──
 function PortfolioApp({ initialLang = 'es' }) {
+  const isMobile = window.PH.useIsMobile();
   const [lang, setLang] = useStateA(initialLang);
   const [collapsed, setCollapsed] = useStateA(false);
   const [route, navigate] = useHashRoute();
@@ -397,16 +473,19 @@ function PortfolioApp({ initialLang = 'es' }) {
       />
 
       <div style={{
-        position: 'absolute', top: 16, right: 16, bottom: 16,
-        left: collapsed ? 96 : 264,
-        background: 'rgba(30, 27, 44, 0.4)',
-        backdropFilter: 'blur(30px) saturate(1.2)',
-        WebkitBackdropFilter: 'blur(30px) saturate(1.2)',
-        border: '1px solid rgba(255, 255, 255, 0.05)',
-        borderRadius: 24,
-        boxShadow: '0 24px 80px -16px rgba(10, 8, 20, 0.5)',
+        position: 'absolute',
+        top: isMobile ? 60 : 16,
+        right: isMobile ? 0 : 16,
+        bottom: isMobile ? 0 : 16,
+        left: isMobile ? 0 : (collapsed ? 96 : 264),
+        background: isMobile ? 'transparent' : 'rgba(30, 27, 44, 0.4)',
+        backdropFilter: isMobile ? 'none' : 'blur(30px) saturate(1.2)',
+        WebkitBackdropFilter: isMobile ? 'none' : 'blur(30px) saturate(1.2)',
+        border: isMobile ? 'none' : '1px solid rgba(255, 255, 255, 0.05)',
+        borderRadius: isMobile ? 0 : 24,
+        boxShadow: isMobile ? 'none' : '0 24px 80px -16px rgba(10, 8, 20, 0.5)',
         overflow: 'hidden',
-        transition: 'left .35s cubic-bezier(.2,.7,.3,1)',
+        transition: 'left .35s cubic-bezier(.2,.7,.3,1), top .35s cubic-bezier(.2,.7,.3,1), right .35s cubic-bezier(.2,.7,.3,1), bottom .35s cubic-bezier(.2,.7,.3,1), border-radius .35s cubic-bezier(.2,.7,.3,1), background .35s',
         zIndex: 2,
       }}>
         <PageSwitcher route={route} lang={lang} onJump={navigate} />

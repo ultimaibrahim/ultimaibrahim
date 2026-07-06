@@ -194,6 +194,7 @@ function AnimSparkline({ data, color, height = 80, fill = true, padTop = 6 }) {
 
 // ── Animated stat card (used in hero) ──
 function StatCard({ s, lang, delay = 0, last }) {
+  const isMobile = window.PH.useIsMobile();
   const [ref, shown] = useReveal();
   const isNumeric = typeof s.val === 'number' || /^-?\d+(\.\d+)?$/.test(String(s.val).trim());
   const counted = useCountUp(s.val, shown && isNumeric);
@@ -204,7 +205,8 @@ function StatCard({ s, lang, delay = 0, last }) {
   return (
     <div ref={ref} style={{
       flex: 1, padding: '18px 18px',
-      borderRight: last ? 'none' : `1px solid ${M.glassBorder}`,
+      borderRight: !isMobile && !last ? `1px solid ${M.glassBorder}` : 'none',
+      borderBottom: isMobile && !last ? `1px solid ${M.glassBorder}` : 'none',
       opacity: shown ? 1 : 0,
       transform: shown ? 'translateY(0)' : 'translateY(8px)',
       transition: `opacity 500ms ${M.easeOutPremium} ${delay}ms, transform 500ms ${M.easeOutPremium} ${delay}ms`,

@@ -8,8 +8,9 @@ const { M, Reveal, Glass, SectionHeader, AnimSparkline, StatCard } = window.Port
 
 // ─────────────────────────── helpers ───────────────────────────
 function PageHero({ kicker, title, italic, sub, accent = M.cool }) {
+  const isMobile = window.PH.useIsMobile();
   return (
-    <header style={{ padding: '40px 0 28px' }}>
+    <header style={{ padding: isMobile ? '24px 0 16px' : '40px 0 28px' }}>
       <Reveal>
         <div style={{
           fontFamily: M.mono, fontSize: 10.5, color: accent,
@@ -23,18 +24,18 @@ function PageHero({ kicker, title, italic, sub, accent = M.cool }) {
       <Reveal delay={80}>
         <h1 style={{
           fontFamily: M.sans,
-          fontSize: 68, lineHeight: 1.02, color: M.text1,
+          fontSize: isMobile ? 38 : 68, lineHeight: 1.02, color: M.text1,
           margin: 0, fontWeight: 500, letterSpacing: '-.035em',
         }}>
           {italic && <span style={{ color: M.text2, fontWeight: 400 }}>{italic} </span>}
-          {!italic ? title : <span style={{ fontWeight: 600, fontSize: 56, letterSpacing: '-.04em', display: 'block', marginTop: 4,
+          {!italic ? title : <span style={{ fontWeight: 600, fontSize: isMobile ? 32 : 56, letterSpacing: '-.04em', display: 'block', marginTop: 4,
             color: M.text1,
           }}>{title}</span>}
         </h1>
       </Reveal>
       {sub && (
         <Reveal delay={180}>
-          <p style={{ fontSize: 16, color: M.text2, lineHeight: 1.65, maxWidth: 540, marginTop: 18, fontWeight: 300 }}>
+          <p style={{ fontSize: isMobile ? 14.5 : 16, color: M.text2, lineHeight: 1.65, maxWidth: 540, marginTop: 18, fontWeight: 300 }}>
             {sub}
           </p>
         </Reveal>
@@ -84,6 +85,7 @@ function NavCard({ to, title, sub, accent, onJump }) {
 
 // ───────────────────────── OVERVIEW PAGE (resumen, focused on HIM) ─────────────────────────
 function Overview({ lang, onJump }) {
+  const isMobile = window.PH.useIsMobile();
   return (
     <div style={{ paddingBottom: 60 }}>
       {/* hero */}
@@ -101,19 +103,19 @@ function Overview({ lang, onJump }) {
         <Reveal delay={80}>
           <h1 style={{
             fontFamily: M.sans,
-            fontSize: 78, lineHeight: 1.0, color: M.text2,
+            fontSize: isMobile ? 44 : 78, lineHeight: 1.0, color: M.text2,
             margin: 0, fontWeight: 400, letterSpacing: '-.035em',
           }}>
             {Dp.t(Dp.HERO.headline, lang)}
             <span style={{
-              display: 'block', fontWeight: 600, fontSize: 78, letterSpacing: '-.045em', marginTop: 4,
+              display: 'block', fontWeight: 600, fontSize: isMobile ? 44 : 78, letterSpacing: '-.045em', marginTop: 4,
               color: M.text1,
             }}>{Dp.t(Dp.HERO.headlineStrong, lang)}</span>
           </h1>
         </Reveal>
       </header>
-
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 50, alignItems: 'start', marginBottom: 40 }}>
+ 
+      <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr', gap: isMobile ? 24 : 50, alignItems: 'start', marginBottom: 40 }}>
         <Reveal delay={180}>
           <p style={{ fontSize: 16.5, color: M.text2, lineHeight: 1.65, maxWidth: 520, fontWeight: 300, margin: 0 }}>
             {Dp.t(Dp.HERO.sub, lang)}
@@ -126,11 +128,11 @@ function Overview({ lang, onJump }) {
             <span>{Dp.t(Dp.PERSONAL.handles, lang)}</span>
           </div>
         </Reveal>
-
+ 
         {/* Personal ID card */}
         <Reveal delay={260}>
           <Glass padding={0} style={{ overflow: 'hidden' }}>
-            <div style={{ display: 'flex' }}>
+            <div style={{ display: 'flex', flexDirection: isMobile ? 'column' : 'row' }}>
               {Dp.PERSONAL.facts.map((s, i, arr) => (
                 <StatCard key={i} s={s} lang={lang} delay={300 + i * 70} last={i === arr.length - 1} />
               ))}
@@ -146,7 +148,7 @@ function Overview({ lang, onJump }) {
       />
       <Reveal delay={80}>
         <Glass padding={26}>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '18px 36px' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr', gap: isMobile ? 18 : '18px 36px' }}>
             {Dp.PERSONAL.now[lang].map(([label, val], i) => (
               <div key={i} style={{
                 display: 'grid', gridTemplateColumns: '110px 1fr', gap: 12, alignItems: 'baseline',
@@ -207,7 +209,7 @@ function Overview({ lang, onJump }) {
           kicker={lang === 'es' ? 'Explorar' : 'Explore'}
           title={lang === 'es' ? 'Dónde seguir' : 'Where to go next'}
         />
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 18 }}>
+        <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : 'repeat(3, 1fr)', gap: 18 }}>
           <Reveal delay={60}><NavCard to="#/proyectos" title={Dp.UI.routes.projects[lang]} sub={lang === 'es' ? 'Cosas que se entregan los lunes a las 9. Casos completos, datos reales.' : 'Things that ship Monday at 9. Full cases, real data.'} accent={M.cool} onJump={onJump} /></Reveal>
           <Reveal delay={130}><NavCard to="#/sobre-mi" title={Dp.UI.routes.about[lang]} sub={lang === 'es' ? 'Trayectoria, educación, idiomas, reconocimientos y notas escritas.' : 'Background, education, languages, awards and written notes.'} accent={M.mint} onJump={onJump} /></Reveal>
           <Reveal delay={200}><NavCard to="#/contacto" title={Dp.UI.routes.contact[lang]} sub={lang === 'es' ? 'Para colaboraciones, demos privadas o simplemente saludar.' : 'For collabs, private demos or just to say hi.'} accent={M.warm} onJump={onJump} /></Reveal>
@@ -352,6 +354,7 @@ function ProjectCardBig({ p, lang, onJump, idx }) {
 }
 
 function Projects({ lang, onJump }) {
+  const isMobile = window.PH.useIsMobile();
   const projects = Dp.visibleProjects();
   return (
     <div style={{ paddingBottom: 60 }}>
@@ -368,7 +371,7 @@ function Projects({ lang, onJump }) {
       </Reveal>
 
       <div style={{ marginTop: 30 }}>
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 18 }}>
+        <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr', gap: 18 }}>
           {projects.map((p, i) => <ProjectCardBig key={p.id} p={p} lang={lang} onJump={onJump} idx={i} />)}
         </div>
       </div>
@@ -384,6 +387,7 @@ function Projects({ lang, onJump }) {
 
 // ─────────────────────── PROJECT DETAIL PAGE (full page) ───────────────────────
 function ProjectDetail({ p, lang, onJump }) {
+  const isMobile = window.PH.useIsMobile();
   const name = typeof p.name === 'string' ? p.name : Dp.t(p.name, lang);
   const isFirst = p.id === 'etoile';
   const accent = isFirst ? M.cool : M.mint;
@@ -490,7 +494,7 @@ function ProjectDetail({ p, lang, onJump }) {
       </Reveal>
 
       {/* summary + metrics */}
-      <div style={{ display: 'grid', gridTemplateColumns: '1.4fr 1fr', gap: 22, marginBottom: 22 }}>
+      <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1.4fr 1fr', gap: 22, marginBottom: 22 }}>
         <Reveal delay={60}>
           <Glass padding={28}>
             <div style={{
@@ -557,7 +561,7 @@ function ProjectDetail({ p, lang, onJump }) {
       </Reveal>
 
       {/* stack + series */}
-      <div style={{ display: 'grid', gridTemplateColumns: '1.4fr 1fr', gap: 22, marginBottom: 32 }}>
+      <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1.4fr 1fr', gap: 22, marginBottom: 32 }}>
         <Reveal delay={60}>
           <Glass padding={28}>
             <div style={{
@@ -664,6 +668,7 @@ const STACK_GROUPS = {
 };
 
 function About({ lang, onJump }) {
+  const isMobile = window.PH.useIsMobile();
   return (
     <div style={{ paddingBottom: 60 }}>
       <PageHero
@@ -695,7 +700,7 @@ function About({ lang, onJump }) {
         kicker={lang === 'es' ? 'Formación' : 'Formation'}
         title={Dp.UI.sections.education[lang]}
       />
-      <div style={{ display: 'grid', gridTemplateColumns: '1.4fr 1fr', gap: 18, marginBottom: 38 }}>
+      <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1.4fr 1fr', gap: 18, marginBottom: 38 }}>
         <Reveal delay={60}>
           <Glass padding={26}>
             {Dp.EDUCATION.map((e, i) => (
@@ -743,7 +748,7 @@ function About({ lang, onJump }) {
           ? 'Tres núcleos en los que opero sin asistencia, herramientas que ya uso, y lo que estoy explorando ahora.'
           : 'Three cores I operate without assistance, tools I already use, and what I’m exploring now.'}
       />
-      <div style={{ display: 'grid', gridTemplateColumns: '1.4fr 1fr', gap: 18, marginBottom: 38 }}>
+      <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1.4fr 1fr', gap: 18, marginBottom: 38 }}>
         <Reveal delay={60}>
           <Glass padding={26}>
             <div style={{ fontFamily: M.mono, fontSize: 10, color: M.cool, letterSpacing: '.18em', textTransform: 'uppercase', marginBottom: 18 }}>
@@ -796,7 +801,7 @@ function About({ lang, onJump }) {
         kicker={lang === 'es' ? 'Cronología' : 'Chronology'}
         title={lang === 'es' ? 'De dónde vengo y a qué juego' : 'Where I’m from, what I’m playing at'}
       />
-      <div style={{ display: 'grid', gridTemplateColumns: '1.1fr 1fr', gap: 18, marginBottom: 38 }}>
+      <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1.1fr 1fr', gap: 18, marginBottom: 38 }}>
         <Reveal delay={60}>
           <Glass padding={26}>
             <div style={{ fontFamily: M.mono, fontSize: 10, color: M.cool, letterSpacing: '.18em', textTransform: 'uppercase', marginBottom: 18 }}>
@@ -865,7 +870,7 @@ function About({ lang, onJump }) {
         kicker={lang === 'es' ? 'Notas' : 'Notes'}
         title={lang === 'es' ? 'Pensar en voz alta' : 'Thinking out loud'}
       />
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 18, marginBottom: 28 }}>
+      <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : 'repeat(3, 1fr)', gap: 18, marginBottom: 28 }}>
         {Dp.NOTES.map((n, i) => (
           <Reveal key={n.idx} delay={i * 90}>
             <Glass padding={24} style={{ cursor: 'pointer', height: '100%' }} hover>
@@ -890,6 +895,7 @@ function About({ lang, onJump }) {
 
 // ─────────────────────── CONTACT PAGE ───────────────────────
 function Contact({ lang, onJump }) {
+  const isMobile = window.PH.useIsMobile();
   const list = Dp.CONTACT[lang];
   return (
     <div style={{ paddingBottom: 60 }}>
@@ -903,7 +909,7 @@ function Contact({ lang, onJump }) {
       />
       <Reveal delay={60}>
         <Glass padding={32}>
-          <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 1fr', gap: 36, alignItems: 'start' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1.2fr 1fr', gap: 36, alignItems: 'start' }}>
             <div>
               <p style={{
                 fontFamily: M.sans, fontSize: 26,
@@ -970,6 +976,7 @@ function Contact({ lang, onJump }) {
 }
 
 function InteractiveVisualizer({ p, lang, accent }) {
+  const isMobile = window.PH.useIsMobile();
   const [selectedBranch, setSelectedBranch] = useStateP('todos');
   const [inputText, setInputText] = useStateP('');
   const [predictedSentiment, setPredictedSentiment] = useStateP(null);
@@ -1053,7 +1060,7 @@ function InteractiveVisualizer({ p, lang, accent }) {
         <span style={{ fontFamily: M.mono, fontSize: 10, color: M.text3 }}>DEMO INTERACTIVA NATIVA</span>
       </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 1fr', gap: 28, marginTop: 20 }}>
+      <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1.2fr 1fr', gap: 28, marginTop: 20 }}>
         {/* Left column: input review & simulate classification */}
         <div>
           <p style={{ fontSize: 13.5, color: M.text2, lineHeight: 1.55, marginTop: 0, marginBottom: 14 }}>
