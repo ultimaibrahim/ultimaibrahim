@@ -413,14 +413,14 @@ function PageSwitcher({ route, lang, onJump }) {
       ref={mainRef}
       style={{
         position: 'absolute', top: 0, right: 0, bottom: 0, left: 0,
-        overflowY: 'auto', zIndex: 2,
+        overflowY: 'auto', overflowX: 'hidden', zIndex: 2,
       }}
     >
       <TopBar route={route} lang={lang} onJump={onJump} />
       <div
         key={shownKey}
         style={{
-          padding: isMobile ? '0 16px 90px' : '0 36px 50px',
+          padding: isMobile ? '0 16px 68px' : '0 36px 50px',
           maxWidth: 1080, margin: '0 auto',
           opacity: fading ? 0 : 1,
           transform: fading ? 'scale(0.98) translateY(4px)' : 'scale(1) translateY(0)',

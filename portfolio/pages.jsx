@@ -443,7 +443,7 @@ function ProjectDetail({ p, lang, onJump }) {
         <Reveal delay={120}>
           <h1 style={{
             fontFamily: M.sans,
-            fontSize: 86, color: M.text1, lineHeight: 1.0, margin: 0,
+            fontSize: isMobile ? 42 : 86, color: M.text1, lineHeight: 1.0, margin: 0,
             fontWeight: 600, letterSpacing: '-.045em',
             backgroundImage: `linear-gradient(135deg, #F2F0F8 0%, ${accent} 95%)`,
             WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text',
@@ -459,7 +459,7 @@ function ProjectDetail({ p, lang, onJump }) {
       {/* privacy + actions */}
       <Reveal delay={240}>
         <Glass padding={20} style={{ marginBottom: 28 }}>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr auto', gap: 22, alignItems: 'center' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr auto', gap: 22, alignItems: 'center' }}>
             <div>
               <div style={{ fontFamily: M.mono, fontSize: 10, color: M.warm, letterSpacing: '.16em', textTransform: 'uppercase', marginBottom: 6 }}>
                 {lang === 'es' ? 'Privacidad' : 'Privacy'} · {privacy.label}
@@ -468,13 +468,15 @@ function ProjectDetail({ p, lang, onJump }) {
                 {privacy.sub}
               </div>
             </div>
-            <div style={{ display: 'flex', gap: 8 }}>
+            <div style={{ display: 'flex', flexDirection: isMobile ? 'column' : 'row', gap: 8, width: isMobile ? '100%' : 'auto' }}>
               <button style={{
                 padding: '9px 16px',
                 background: M.glass, border: `1px solid ${M.glassBorder}`,
                 color: M.text1, fontFamily: M.sans, fontSize: 12.5, fontWeight: 500, letterSpacing: '-.005em',
                 borderRadius: 12, cursor: 'pointer',
                 transition: 'all .15s',
+                width: isMobile ? '100%' : 'auto',
+                textAlign: 'center',
               }}
                 onMouseEnter={e => e.currentTarget.style.background = M.glassHi}
                 onMouseLeave={e => e.currentTarget.style.background = M.glass}
@@ -488,6 +490,8 @@ function ProjectDetail({ p, lang, onJump }) {
                   fontFamily: M.sans, fontSize: 12.5, fontWeight: 500, letterSpacing: '-.005em', cursor: 'pointer',
                   boxShadow: '0 6px 18px rgba(140,135,200,.30), 0 1px 0 rgba(255,255,255,.5) inset',
                   transition: 'transform .15s',
+                  width: isMobile ? '100%' : 'auto',
+                  textAlign: 'center',
                 }}
                 onMouseEnter={e => e.currentTarget.style.transform = 'translateY(-1px)'}
                 onMouseLeave={e => e.currentTarget.style.transform = 'translateY(0)'}
@@ -565,7 +569,7 @@ function ProjectDetail({ p, lang, onJump }) {
       </Reveal>
 
       {/* stack + series */}
-      <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1.4fr 1fr', gap: 22, marginBottom: 32 }}>
+      <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1.4fr 1fr', gap: 22, marginBottom: isMobile ? 18 : 32 }}>
         <Reveal delay={60}>
           <Glass padding={28}>
             <div style={{
@@ -673,8 +677,9 @@ const STACK_GROUPS = {
 
 function About({ lang, onJump }) {
   const isMobile = window.PH.useIsMobile();
+  const [activeNote, setActiveNote] = useStateP(null);
   return (
-    <div style={{ paddingBottom: 60 }}>
+    <div style={{ paddingBottom: 65 }}>
       <PageHero
         kicker={lang === 'es' ? 'Editorial' : 'Editorial'}
         italic={Dp.UI.routes.about[lang]}
@@ -877,7 +882,12 @@ function About({ lang, onJump }) {
       <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : 'repeat(3, 1fr)', gap: 18, marginBottom: 28 }}>
         {Dp.NOTES.map((n, i) => (
           <Reveal key={n.idx} delay={i * 90}>
-            <Glass padding={24} style={{ cursor: 'pointer', height: '100%' }} hover>
+            <Glass
+              padding={24}
+              style={{ cursor: 'pointer', height: '100%' }}
+              hover
+              onClick={() => setActiveNote(n)}
+            >
               <div style={{ display: 'flex', justifyContent: 'space-between', fontFamily: M.mono, fontSize: 10, color: M.text3, letterSpacing: '.08em', marginBottom: 16 }}>
                 <span>{n.idx}</span>
                 <span>{Dp.t(n.date, lang)}</span>
@@ -893,6 +903,47 @@ function About({ lang, onJump }) {
           </Reveal>
         ))}
       </div>
+
+      {/* Modal for full Note */}
+      {activeNote && (
+        <div style={{
+          position: 'fixed', inset: 0, zIndex: 100,
+          background: 'rgba(15,12,30,.7)', backdropFilter: 'blur(16px)',
+          WebkitBackdropFilter: 'blur(16px)',
+          display: 'grid', placeItems: 'center', padding: 20,
+        }} onClick={() => setActiveNote(null)}>
+          <Glass padding={28} style={{
+            maxWidth: 540, width: '100%',
+            background: 'rgba(30,27,44,.95)', border: '1px solid rgba(255,255,255,.1)',
+            boxShadow: '0 24px 60px rgba(10,8,20,.6)',
+          }} onClick={e => e.stopPropagation()}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', fontFamily: M.mono, fontSize: 10, color: M.text3, letterSpacing: '.08em', marginBottom: 16 }}>
+              <span>{activeNote.idx}</span>
+              <span>{Dp.t(activeNote.date, lang)}</span>
+            </div>
+            <h3 style={{ fontFamily: M.sans, fontSize: 24, fontWeight: 600, color: M.text1, lineHeight: 1.3, margin: 0, marginBottom: 14, letterSpacing: '-.025em' }}>
+              {Dp.t(activeNote.title, lang)}
+            </h3>
+            <p style={{ fontSize: 15, color: M.text2, lineHeight: 1.7, margin: '14px 0 24px', fontWeight: 300 }}>
+              {Dp.t(activeNote.content, lang)}
+            </p>
+            <div style={{ textAlign: 'right' }}>
+              <button
+                onClick={() => setActiveNote(null)}
+                className="interactive-btn"
+                style={{
+                  background: 'rgba(255,255,255,.05)', border: `1px solid ${M.glassBorder}`,
+                  color: M.text1, fontFamily: M.mono, fontSize: 11, letterSpacing: '.12em', textTransform: 'uppercase',
+                  padding: '8px 16px', borderRadius: 10, cursor: 'pointer',
+                  transition: 'background .15s',
+                }}
+              >
+                {lang === 'es' ? 'Cerrar' : 'Close'}
+              </button>
+            </div>
+          </Glass>
+        </div>
+      )}
     </div>
   );
 }
@@ -1051,7 +1102,7 @@ function InteractiveVisualizer({ p, lang, accent }) {
 
   return (
     <Glass padding={28}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 18 }}>
+      <div style={{ display: 'flex', flexDirection: isMobile ? 'column' : 'row', alignItems: isMobile ? 'flex-start' : 'center', gap: isMobile ? 8 : 12, justifyContent: 'space-between', marginBottom: 18 }}>
         <div>
           <div style={{ fontFamily: M.mono, fontSize: 10, color: accent, letterSpacing: '.18em', textTransform: 'uppercase', marginBottom: 6 }}>
             {lang === 'es' ? 'Visor de Datos e Inteligencia Artificial' : 'Data & AI Interactive Viewer'}
@@ -1071,7 +1122,7 @@ function InteractiveVisualizer({ p, lang, accent }) {
               ? 'Prueba el modelo de clasificación de reseñas. Escribe una opinión sobre el servicio o la comida para analizar su sentimiento mediante nuestro pipeline de IA.'
               : 'Test the review classification model. Write an opinion about the service or food to analyze its sentiment through our AI pipeline.'}
           </p>
-          <div style={{ display: 'flex', gap: 10, marginBottom: 16 }}>
+          <div style={{ display: 'flex', flexDirection: isMobile ? 'column' : 'row', gap: 10, marginBottom: 16 }}>
             <input
               type="text"
               value={inputText}
@@ -1100,7 +1151,7 @@ function InteractiveVisualizer({ p, lang, accent }) {
                 color: '#2D2A3D',
                 border: 'none',
                 borderRadius: 12,
-                padding: '0 20px',
+                padding: isMobile ? '12px 20px' : '0 20px',
                 fontFamily: M.sans,
                 fontSize: 13,
                 fontWeight: 600,
@@ -1168,12 +1219,15 @@ function InteractiveVisualizer({ p, lang, accent }) {
                 borderRadius: 10,
                 padding: '10px 12px',
                 display: 'grid',
-                gridTemplateColumns: '80px 1fr auto',
+                gridTemplateColumns: isMobile ? '1fr auto' : '80px 1fr auto',
                 gap: 12,
                 alignItems: 'center'
               }}>
-                <span style={{ fontFamily: M.mono, fontSize: 10, color: M.text3 }}>{r.branch}</span>
-                <span style={{ fontSize: 12, color: M.text2, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{r.text}</span>
+                {!isMobile && <span style={{ fontFamily: M.mono, fontSize: 10, color: M.text3 }}>{r.branch}</span>}
+                <div>
+                  {isMobile && <div style={{ fontFamily: M.mono, fontSize: 9.5, color: M.cool, marginBottom: 2 }}>{r.branch}</div>}
+                  <span style={{ fontSize: 12, color: M.text2 }}>{r.text}</span>
+                </div>
                 <span style={{
                   fontFamily: M.mono, fontSize: 9,
                   color: r.sentiment === 'positivo' ? M.mint : r.sentiment === 'negativo' ? M.warm : M.cool,
@@ -1188,7 +1242,16 @@ function InteractiveVisualizer({ p, lang, accent }) {
         </div>
 
         {/* Right column: active stats & distribution */}
-        <div style={{ borderLeft: `1px solid ${M.glassBorder}`, paddingLeft: 28, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+        <div style={{
+          borderLeft: isMobile ? 'none' : `1px solid ${M.glassBorder}`,
+          borderTop: isMobile ? `1px solid ${M.glassBorder}` : 'none',
+          paddingLeft: isMobile ? 0 : 28,
+          paddingTop: isMobile ? 22 : 0,
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'space-between',
+          gap: 20
+        }}>
           <div>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 14 }}>
               <span style={{ fontFamily: M.mono, fontSize: 10, color: M.text3, letterSpacing: '.12em', textTransform: 'uppercase' }}>

@@ -339,6 +339,10 @@
         es: 'La gente usa lo que les resuelve el lunes a las 9. No el SaaS premiado en Twitter.',
         en: "People use what solves Monday at 9 a.m. Not the SaaS that wins Twitter awards.",
       },
+      content: {
+        es: 'Las herramientas internas son el verdadero motor de la productividad en las organizaciones. A menudo nos obsesionamos con el último framework de moda o bases de datos hipercomplejas, pero lo que el usuario final valora es que la aplicación cargue al instante y que los datos ingresados no se pierdan. Prefiero enfocarme en resolver el problema del lunes a las 9:00 AM, construyendo software robusto y pragmático.',
+        en: 'Internal tools are the real engine of productivity in organizations. We often obsess over the latest trendy framework or hyper-complex databases, but what the end-user values is that the application loads instantly and input data is never lost. I prefer to focus on solving the Monday 9:00 AM problem, building robust and pragmatic software.',
+      },
     },
     {
       idx: '#02',
@@ -351,6 +355,10 @@
         es: 'Lo que parecía un dashboard era en realidad un proceso de lectura que nadie hacía.',
         en: 'What looked like a dashboard was really a reading process nobody was doing.',
       },
+      content: {
+        es: 'Recopilar 245 reseñas mensuales de 8 sucursales no sirve de nada si los gerentes no leen la información. Al diseñar la solución de NLP para las sucursales, me di cuenta de que el problema no era técnico sino de usabilidad: nadie abría el panel. Automatizar alertas por correo electrónico cuando llega una crítica negativa cambió radicalmente la velocidad de respuesta, atacando el problema de raíz.',
+        en: 'Collecting 245 monthly reviews from 8 locations is useless if managers do not read the information. When designing the NLP solution for the branches, I realized the problem was not technical but usability: nobody opened the dashboard. Automating email alerts for negative reviews radically changed response times, addressing the root problem.',
+      },
     },
     {
       idx: '#01',
@@ -362,6 +370,10 @@
       excerpt: {
         es: 'Cuatro etapas y por qué la más importante no es el modelo.',
         en: "Four stages — and why the most important one isn't the model.",
+      },
+      content: {
+        es: 'El camino desde la extracción de datos con Apify hasta la toma de decisiones estratégicas consta de cuatro etapas: extracción, normalización, modelado y visualización. El verdadero reto radica en limpiar el ruido para extraer insights de valor operativo en lugar de métricas de vanidad. La etapa más importante es la normalización y contextualización de los datos, no el modelo de clasificación en sí.',
+        en: 'The path from data scraping with Apify to strategic decision-making consists of four stages: extraction, normalization, modeling, and visualization. The real challenge lies in cleaning the noise to extract insights of operational value instead of vanity metrics. The most critical stage is data normalization and contextualization, not the classification model itself.',
       },
     },
   ];
