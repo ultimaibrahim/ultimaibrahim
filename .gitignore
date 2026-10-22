@@ -1,0 +1,5 @@
+qa/audit/
+qa/prof*/
+qa/blink/
+qa/*.png
+qa/*.jpg

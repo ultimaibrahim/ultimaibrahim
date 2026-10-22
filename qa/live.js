@@ -1,0 +1,22 @@
+const { spawn } = require('child_process'), fs = require('fs'), sleep = ms => new Promise(r => setTimeout(r, ms));
+(async () => {
+  const ch = spawn('chromium', ['--headless=new','--no-sandbox','--disable-gpu','--remote-debugging-port=9881','--window-size=1440,900','--user-data-dir='+__dirname+'/proflive','about:blank'], { stdio: 'ignore' });
+  await sleep(2500);
+  const tabs = await (await fetch('http://localhost:9881/json')).json();
+  const ws = new WebSocket(tabs.find(t => t.type === 'page').webSocketDebuggerUrl); await new Promise(r => ws.onopen = r);
+  let id = 0; const pend = {}, errs = []; ws.onmessage = m => { const d = JSON.parse(m.data); if (d.id && pend[d.id]) pend[d.id](d.result); if (d.method === 'Runtime.exceptionThrown') errs.push(JSON.stringify(d.params.exceptionDetails.exception||d.params.exceptionDetails).slice(0, 200)); };
+  const send = (method, params = {}) => new Promise(r => { const i = ++id; pend[i] = r; ws.send(JSON.stringify({ id: i, method, params })); });
+  const ev = async e => (await send('Runtime.evaluate', { expression: e, returnByValue: true })).result?.value;
+  await send('Runtime.enable'); await send('Page.enable'); await send('Emulation.setDeviceMetricsOverride', { width: 1440, height: 900, deviceScaleFactor: 1, mobile: false });
+  await send('Page.navigate', { url: 'https://ultimaibrahim.dev/?x=' + Date.now() }); await sleep(12000);
+  const inner = e => ev(`document.querySelector('iframe').contentWindow.eval(${JSON.stringify(e)})`);
+  console.log('gate on:', await inner("document.getElementById('start-gate').classList.contains('on')"));
+  await send('Input.dispatchMouseEvent', { type: 'mousePressed', x: 720, y: 400, button: 'left', clickCount: 1 }); await send('Input.dispatchMouseEvent', { type: 'mouseReleased', x: 720, y: 400, button: 'left', clickCount: 1 });
+  await sleep(1500); console.log('skip label:', await inner("document.getElementById('skip-btn').textContent"));
+  await inner("document.getElementById('skip-btn').click()"); await sleep(9000);
+  console.log('iframe now:', await ev("document.querySelector('iframe').src"), '| tab icon is png:', await ev("document.querySelector('link[rel~=icon]').type"));
+  await sleep(2500);
+  fs.writeFileSync(__dirname + '/live.png', Buffer.from((await send('Page.captureScreenshot')).data, 'base64'));
+  console.log('fonts loaded:', await inner("[...document.fonts].filter(f=>f.status==='loaded').map(f=>f.family).join(',')"), '| errors', errs.length, errs[0] || '');
+  ch.kill();
+})();
