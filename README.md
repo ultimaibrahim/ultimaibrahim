@@ -1,13 +1,12 @@
 <div align="center">
 
 # Ibrahim García
-### Data Product Developer & Software Architect · Guadalajara, MX
+### Data Product Developer & Software Architect
 
 *Construyo herramientas internas y sistemas operacionales que transforman datos dispersos en decisiones ágiles y medibles.*
 
 [![Portfolio](https://img.shields.io/badge/portfolio-ultimaibrahim.dev-111827?style=for-the-badge&logo=googlechrome&logoColor=white)](https://ultimaibrahim.dev)
 [![LinkedIn](https://img.shields.io/badge/linkedin-ultimaibrahim-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://linkedin.com/in/ultimaibrahim)
-[![GitHub](https://img.shields.io/badge/github-ultimaibrahim-24292E?style=for-the-badge&logo=github&logoColor=white)](https://github.com/ultimaibrahim)
 
 </div>
 
