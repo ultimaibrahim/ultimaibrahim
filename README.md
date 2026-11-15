@@ -17,12 +17,13 @@
 <table>
   <tr>
     <td width="50%" valign="top">
-      <h3>🌟 <a href="https://github.com/ultimaibrahim/etoile">étoile</a></h3>
+      <h3>🌟 <a href="https://github.com/ultimaibrahim/etoile-poster">étoile</a></h3>
       <p><strong>Hospitality Operations & Sentiment Intelligence Platform</strong></p>
       <p>Suite de analítica de reseñas y satisfacción de clientes multi-ubicación con categorización semántica de quejas (NLP), alertas en tiempo real y arquitectura Jamstack serverless sin exposición de secretos.</p>
       <p>
         <code>Vanilla JS ES6+</code> · <code>Netlify Functions</code> · <code>Supabase (PostgreSQL)</code> · <code>Apify Webhooks</code>
       </p>
+      <p><sub>El código es privado. El resumen, la metodología y el póster del proyecto integrador son públicos.</sub></p>
     </td>
     <td width="50%" valign="top">
       <h3>⚡ <a href="https://github.com/ultimaibrahim/mise-en-place">mise en place</a></h3>
