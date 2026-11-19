@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="es-MX">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Privacidad · Cleo</title>
+<meta name="description" content="Política de privacidad de Cleo (CleoPER), asistente personal de uso privado." />
+<link rel="icon" href="../../favicon.svg" type="image/svg+xml" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  *, *::before, *::after { box-sizing: border-box; }
+  :root {
+    --bg: #0B0914;
+    --text: #F2F0F8;
+    --text-2: rgba(242, 240, 248, 0.82);
+    --muted: rgba(242, 240, 248, 0.5);
+    --accent: #C084FC;
+    --line: rgba(192, 132, 252, 0.18);
+  }
+  html, body { margin: 0; background: var(--bg); color: var(--text); }
+  body {
+    font: 16px/1.65 'Geist', -apple-system, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    padding: 56px 16px 72px;
+  }
+  main { max-width: 680px; margin: 0 auto; }
+  .eyebrow { font: 500 12px/1 'Geist Mono', monospace; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); }
+  h1 { font-size: clamp(28px, 6vw, 40px); line-height: 1.15; margin: 14px 0 6px; font-weight: 600; }
+  .meta { color: var(--muted); font-size: 14px; margin: 0 0 36px; }
+  h2 { font-size: 18px; font-weight: 600; margin: 36px 0 10px; padding-top: 20px; border-top: 1px solid var(--line); }
+  p, li { color: var(--text-2); }
+  ul { padding-left: 20px; }
+  li { margin: 6px 0; }
+  code { font: 14px 'Geist Mono', monospace; color: var(--accent); }
+  a { color: var(--accent); text-underline-offset: 3px; }
+  footer { margin-top: 48px; color: var(--muted); font-size: 14px; }
+</style>
+</head>
+<body>
+<main>
+  <div class="eyebrow">Cleo · CleoPER</div>
+  <h1>Política de privacidad</h1>
+  <p class="meta">Última actualización: 19 de noviembre de 2026</p>
+
+  <p>Cleo (registrada en Google como <strong>CleoPER</strong>) es un asistente personal que desarrollo y uso yo mismo en mi propia computadora. No es un servicio público: no tiene registro abierto, no tiene otros usuarios y no se vende.</p>
+
+  <h2>Qué datos de Google lee</h2>
+  <p>Con mi autorización, Cleo usa permisos de <strong>solo lectura</strong>:</p>
+  <ul>
+    <li><strong>Google Calendar</strong> (<code>calendar.readonly</code>): mis próximos eventos.</li>
+    <li><strong>Google Classroom</strong> (<code>classroom.courses.readonly</code>, <code>classroom.coursework.me.readonly</code>, <code>classroom.announcements.readonly</code>): mis cursos, tareas, fechas de entrega y avisos.</li>
+  </ul>
+  <p>Cleo no crea, modifica, borra ni envía nada en esas cuentas.</p>
+
+  <h2>Para qué se usan</h2>
+  <p>Solo para recordarme pendientes y entregas, y para armar mis resúmenes del día dentro de la misma app.</p>
+
+  <h2>Dónde se guardan</h2>
+  <p>Los datos se guardan en una base de datos local en mi computadora. No se suben a servidores propios, no se comparten con terceros, no se venden y no se usan para publicidad. Los tokens de acceso se guardan en archivos locales que solo puede leer mi usuario del sistema.</p>
+
+  <h2>Uso limitado</h2>
+  <p>El uso y la transferencia de información recibida de las API de Google se ajustan a la <a href="https://developers.google.com/terms/api-services-user-data-policy" rel="noopener">Política de datos del usuario de los servicios de API de Google</a>, incluidos los requisitos de Uso limitado.</p>
+
+  <h2>Cómo revocar el acceso</h2>
+  <p>El acceso se puede retirar en cualquier momento desde <a href="https://myaccount.google.com/permissions" rel="noopener">myaccount.google.com/permissions</a>. Al revocarlo, Cleo deja de leer esos datos; los que ya estén guardados en local se pueden borrar a petición.</p>
+
+  <h2>Contacto</h2>
+  <p><a href="mailto:hello@ultimaibrahim.dev">hello@ultimaibrahim.dev</a></p>
+
+  <footer><a href="/">ultimaibrahim.dev</a></footer>
+</main>
+</body>
+</html>
