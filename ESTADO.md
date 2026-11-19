@@ -1,9 +1,11 @@
 # Estado del portafolio · 17-oct-2026
 
 ## Producción
-- Se sirve desde **GitHub Pages** (rama `main` de `ultimaibrahim/ultimaibrahim`) con **Cloudflare** delante. Cada push a `main` se publica solo (tarda ~1 minuto: `gh api repos/ultimaibrahim/ultimaibrahim/pages/builds/latest`).
+- Se sirve 100% desde **Cloudflare Workers** (proyecto `ultimaibrahim`, integración Git de **Workers Builds** sobre la rama `main` de `ultimaibrahim/ultimaibrahim`). Cada push a `main` se publica solo en ~1 minuto; el resultado aparece como check `Workers Builds: ultimaibrahim` en el commit (`gh api repos/ultimaibrahim/ultimaibrahim/commits/<sha>/check-runs`).
+- **GitHub Pages está apagado** (desde 2026-11-19). Antes publicaba una copia duplicada en `ultimaibrahim.github.io/ultimaibrahim/` que el dominio no usaba.
 - Cloudflare quita `.html` de las rutas con una redirección 307 (`/portfolio/gateway.html` → `/portfolio/gateway`). Todo el código usa rutas relativas y funciona así.
-- Hay una rama `cloudflare/workers-autoconfig` (creada por el bot de Cloudflare, con `wrangler.jsonc`); no está fusionada y no se usa para desplegar.
+- Hay una rama `cloudflare/workers-autoconfig` (creada por el bot de Cloudflare, con `wrangler.jsonc`); no está fusionada: Workers Builds despliega `main` como archivos estáticos sin esa config.
+- `cleo/privacidad/`: política de privacidad del cliente OAuth **CleoPER** (Google Auth Platform, proyecto `cleo-507902`). Google exige esa URL para mantener la app en producción; no la borres ni la muevas sin actualizarla allá.
 
 ## Arquitectura
 ```
